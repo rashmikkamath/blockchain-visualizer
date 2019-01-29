@@ -1,4 +1,5 @@
 import React from 'react';
+import Table from './Table';
 
 class BlocksContainer extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class BlocksContainer extends React.Component {
           });
         },
         (error) => {
+          console.log(error)
           this.setState({
             isLoaded: false,
             error
@@ -45,10 +47,15 @@ class BlocksContainer extends React.Component {
   }
 
   render() {
-
+    let content = <div>No data</div>  ;
+    if (this.state.isLoaded) {
+      content = <Table
+                  tableData = {this.state.items}
+                />
+    } 
     return (
       <div>
-        Hi
+       {content}
       </div>
     )
     
