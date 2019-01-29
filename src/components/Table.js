@@ -4,8 +4,8 @@ const TABLE_COLUMNS = ['hash', 'time', 'height', 'main_chain'];
 
 class Table extends React.Component {
 	constructor(props){
-      super(props)
-      this.drawTable = this.drawTable.bind(this)
+      super(props);
+      this.drawTable = this.drawTable.bind(this);
    	}
 	componentDidMount() {
     	this.drawTable();
@@ -15,7 +15,7 @@ class Table extends React.Component {
   	}
   	drawTable() {
   		let data = this.props.tableData['blocks'];
-  		console.log(this.props.tableData['blocks']);
+  		let timeClicks = 0;
 
   		// We cannot append an HTML element directly to svg, hence create
   		// a foriegn object inside the svg to append the table to.
@@ -25,12 +25,11 @@ class Table extends React.Component {
 		    .attr("height", 500)
 		    .append("xhtml:table");
 
-  		//let table = svg.append('table');
   		let thead = table.append('thead')
 		let	tbody = table.append('tbody');
 
 		// append the header row
-		thead.append('tr')
+		let headers = thead.append('tr')
 		  .selectAll('th')
 		  .data(TABLE_COLUMNS).enter()
 		  .append('th')
@@ -51,8 +50,45 @@ class Table extends React.Component {
 		  })
 		  .enter()
 		  .append('td')
-		    .text(function (d) { return d.value; });
-  		
+		    .html(function (d) {
+		    	if (d.column === 'hash') {
+		    		return "<a href="+ d.value +">" + d.value + "</a>"
+		    	}
+		    	return d.value;
+		    });
+		
+		// Sort Functionality
+		headers
+    	.on("click", function(d) {
+    		if (d === 'time' || d === 'height') {
+    			timeClicks++;
+    			// even number of clicks
+    			if (timeClicks % 2 === 0) {
+    				// sort ascending: numerically
+    				rows.sort(function(a,b) {
+			          	if (+a.time < +b.time) {
+			          		return -1; 
+			            } else if (+a.time > +b.time) { 
+			              	return 1; 
+			            } else {
+			              	return 0;
+			            }
+		          	});
+		        // Odd number of clicks
+    			}else if (timeClicks % 2 !== 0) { 
+          			// sort descending: numerically
+          			rows.sort(function(a,b) { 
+			            if (+a.time < +b.time) { 
+			              return 1; 
+			            } else if (+a.time > +b.time) { 
+			              return -1; 
+			            } else {
+			              return 0;
+			            }
+          			});
+        		}
+    		}
+    	})
   	}
   	render() {
 	    return <svg ref={node => this.node = node}
