@@ -15,6 +15,7 @@ class Table extends React.Component {
   	}
   	drawTable() {
   		let data = this.props.tableData['blocks'];
+  		const self = this;
   		let timeClicks = 0;
 
   		// We cannot append an HTML element directly to svg, hence create
@@ -55,11 +56,19 @@ class Table extends React.Component {
 		    		return "<a href="+ d.value +">" + d.value + "</a>"
 		    	}
 		    	return d.value;
-		    });
+		    })
+		    .on("click", (r) => {
+		    	if (r.column === 'hash') {
+		    		d3.event.preventDefault();
+		    		self.props.linkClicked(r.value, 'block')
+		    	}
+		    })
+
+		
 		
 		// Sort Functionality
 		headers
-    	.on("click", function(d) {
+    	.on("click", (d) => {
     		if (d === 'time' || d === 'height') {
     			timeClicks++;
     			// even number of clicks
@@ -74,6 +83,7 @@ class Table extends React.Component {
 			              	return 0;
 			            }
 		          	});
+		          	this.className = 'aes';
 		        // Odd number of clicks
     			}else if (timeClicks % 2 !== 0) { 
           			// sort descending: numerically
@@ -86,6 +96,7 @@ class Table extends React.Component {
 			              return 0;
 			            }
           			});
+          			this.className = 'des';
         		}
     		}
     	})
@@ -93,7 +104,7 @@ class Table extends React.Component {
   	render() {
 	    return <svg ref={node => this.node = node}
 	    			id="table"
-      				width={1000} height={1000}>
+      				width={1200} height={1200}>
       			</svg>
   	}
 }

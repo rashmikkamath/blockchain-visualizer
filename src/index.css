@@ -1,9 +1,18 @@
+body {
+	padding: 80px;
+}
+
 table {
 	background: yellow;
 	width: 100%; 
 	border-collapse: collapse; 
 }
+.main {
+	margin: auto;
+  	width: 100%;
+  
 	/* Zebra striping */
+}
 tr:nth-of-type(odd) { 
 	background: #eee; 
 }
@@ -22,9 +31,32 @@ td, th {
 }
 
 th.des:after {
-  content: "\21E9";
+  content: "\2207";
 }
 
 th.aes:after {
-  content: "\21E7";
+  content: "\2206";
+}
+
+.details li label {
+	width:100%;
+}
+.details li label .label {
+	width:20%;
+	display: inline-block;
+	font-weight: bold;
+}
+.details li label span {
+	width: 70%;
+	display: inline-block;
+	text-align: left;
+}
+
+.transactions p {
+	margin-top: 50px;
+	font-weight: bold;
+	font-size: 20px;
+}
+.transactions .items {
+	margin-left: 50px;
 }

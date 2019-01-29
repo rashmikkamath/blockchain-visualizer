@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from './Table';
+import DetailsContainer from './DetailsContainer';
 
 class BlocksContainer extends React.Component {
   constructor(props) {
@@ -7,8 +8,12 @@ class BlocksContainer extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
+      isLinkClicked: false,
+      blockDetails: [],
+      type: '',
     };
+    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   componentDidMount() {
@@ -46,15 +51,63 @@ class BlocksContainer extends React.Component {
       )
   }
 
+  handleLinkClick(hash, type) {
+    let apiUrl;
+    if (type === 'block') {
+      apiUrl = 'https://blockchain.info/rawblock/';
+    } else if (type === 'tx') {
+      apiUrl = 'https://blockchain.info/rawtx/';
+    }
+    let url = apiUrl + hash;
+
+    fetch(url, {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            blockDetails: result,
+            isLinkClicked: true,
+            type: type,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: false,
+            error
+          });
+        }
+      )
+    
+  }
+
   render() {
-    let content = <div>No data</div>  ;
-    if (this.state.isLoaded) {
-      content = <Table
-                  tableData = {this.state.items}
+    let content = <div>Loading...</div>  ;
+    if (this.state.isLoaded && !this.state.isLinkClicked) {
+      content = <div>
+                  Blocks Today
+                  <Table
+                    tableData = {this.state.items}
+                    linkClicked={this.handleLinkClick}
+                  />
+                </div>
+    }
+    if (this.state.isLoaded && this.state.isLinkClicked) {
+      content = <DetailsContainer
+                  type={this.state.type}
+                  details={this.state.blockDetails}
+                  linkClicked={this.handleLinkClick}
                 />
-    } 
+    }
     return (
-      <div>
+      <div className="main">
        {content}
       </div>
     )
