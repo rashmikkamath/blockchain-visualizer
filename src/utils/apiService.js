@@ -1,8 +1,11 @@
 export default function getApiData(url) {
-  return fetch(url, {
+  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  return fetch(proxyUrl + url, {
+      method: 'GET',
+      mode: 'cors',
       headers : { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
       }
     })
       .then(res => {
