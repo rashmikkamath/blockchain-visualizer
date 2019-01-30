@@ -25,7 +25,9 @@ class Table extends React.Component {
       // a foriegn object inside the svg to append the table to.
       let table =  d3.select("#table")
         .append("foreignObject")
-        .append("xhtml:table");
+        .attr('width', 1000)
+        .attr('height', 1000)
+        .append("xhtml:table")
 
       let thead = table.append('thead')
       let tbody = table.append('tbody');
