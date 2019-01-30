@@ -1,17 +1,15 @@
 body {
-	padding: 80px;
+	padding: 30px;
 }
 
 table {
 	background: yellow;
 	width: 100%; 
-	border-collapse: collapse; 
+	border-collapse: collapse;
 }
 .main {
 	margin: auto;
   	width: 100%;
-  
-	/* Zebra striping */
 }
 tr:nth-of-type(odd) { 
 	background: #eee; 
@@ -52,6 +50,10 @@ th.aes:after {
 	text-align: left;
 }
 
+.details button {
+	margin-bottom: 20px;
+}
+
 .transactions p {
 	margin-top: 50px;
 	font-weight: bold;
@@ -59,4 +61,7 @@ th.aes:after {
 }
 .transactions .items {
 	margin-left: 50px;
+}
+.title {
+	font-weight: bold;
 }

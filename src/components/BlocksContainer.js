@@ -1,12 +1,10 @@
 import React from 'react';
 import Table from './Table';
-import DetailsContainer from './DetailsContainer';
 
 class BlocksContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
       isLoaded: false,
       items: [],
       isLinkClicked: false,
@@ -42,10 +40,8 @@ class BlocksContainer extends React.Component {
           });
         },
         (error) => {
-          console.log(error)
           this.setState({
             isLoaded: false,
-            error
           });
         }
       )
