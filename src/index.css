@@ -3,16 +3,19 @@ body {
 }
 
 table {
-	background: yellow;
+	background: #ffffff;
 	width: 100%; 
 	border-collapse: collapse;
+}
+.svg-container {
+    overflow: auto;
 }
 .main {
 	margin: auto;
   	width: 100%;
 }
 tr:nth-of-type(odd) { 
-	background: #eee; 
+	background: #f0f8ff; 
 }
 th { 
 	background: #333; 

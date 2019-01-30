@@ -16,6 +16,7 @@ class Table extends React.Component {
       this.drawTable();
     }
     drawTable() {
+
       let data = this.props.tableData['blocks'];
       const self = this;
       let timeClicks = 0;
@@ -24,87 +25,85 @@ class Table extends React.Component {
       // a foriegn object inside the svg to append the table to.
       let table =  d3.select("#table")
         .append("foreignObject")
-        .attr("width", 500)
-        .attr("height", 500)
         .append("xhtml:table");
 
       let thead = table.append('thead')
-    let tbody = table.append('tbody');
+      let tbody = table.append('tbody');
 
-    // append the header row
-    let headers = thead.append('tr')
-      .selectAll('th')
-      .data(TABLE_COLUMNS).enter()
-      .append('th')
-        .text(column => humanize(column));
+      // append the header row
+      let headers = thead.append('tr')
+        .selectAll('th')
+        .data(TABLE_COLUMNS).enter()
+        .append('th')
+          .text(column => humanize(column));
 
-    // create a row for each object in the data
-    let rows = tbody.selectAll('tr')
-      .data(data)
-      .enter()
-      .append('tr');
+      // create a row for each object in the data
+      let rows = tbody.selectAll('tr')
+        .data(data)
+        .enter()
+        .append('tr');
 
-    // create a cell in each row for each column
-    rows.selectAll('td')
-      .data(function (row) {
-        return TABLE_COLUMNS.map(function (column) {
-          return {column: column, value: row[column]};
-        });
-      })
-      .enter()
-      .append('td')
-        .html(function (d) {
-          if (d.column === 'hash') {
-            return "<a href='/details'>" + d.value + "</a>"
-          }
-          return d.value;
+      // create a cell in each row for each column
+      rows.selectAll('td')
+        .data(function (row) {
+          return TABLE_COLUMNS.map(function (column) {
+            return {column: column, value: row[column]};
+          });
         })
-        .on("click", (r) => {
-          if (r.column === 'hash') {
-            d3.event.preventDefault();
-            self.props.linkClicked(r.value, 'block')
-          }
-        })
-
-    // Sort Functionality
-    headers
-      .on("click", (d) => {
-        if (d === 'time' || d === 'height') {
-          timeClicks++;
-          // even number of clicks
-          if (timeClicks % 2 === 0) {
-            // sort ascending: numerically
-            rows.sort(function(a,b) {
-                  if (+a.time < +b.time) {
-                    return -1; 
-                  } else if (+a.time > +b.time) { 
-                      return 1; 
-                  } else {
-                      return 0;
-                  }
-                });
-                this.className = 'aes';
-            // Odd number of clicks
-          }else if (timeClicks % 2 !== 0) { 
-                // sort descending: numerically
-                rows.sort(function(a,b) { 
-                  if (+a.time < +b.time) { 
-                    return 1; 
-                  } else if (+a.time > +b.time) { 
-                    return -1; 
-                  } else {
-                    return 0;
-                  }
-                });
-                this.className = 'des';
+        .enter()
+        .append('td')
+          .html(function (d) {
+            if (d.column === 'hash') {
+              return "<a href='/details'>" + d.value + "</a>"
             }
-        }
-      })
+            return d.value;
+          })
+          .on("click", (r) => {
+            if (r.column === 'hash') {
+              d3.event.preventDefault();
+              self.props.linkClicked(r.value, 'block')
+            }
+          })
+
+      // Sort Functionality
+      headers
+        .on("click", (d) => {
+          if (d === 'time' || d === 'height') {
+            timeClicks++;
+            // even number of clicks
+            if (timeClicks % 2 === 0) {
+              // sort ascending: numerically
+              rows.sort(function(a,b) {
+                    if (+a.time < +b.time) {
+                      return -1; 
+                    } else if (+a.time > +b.time) { 
+                        return 1; 
+                    } else {
+                        return 0;
+                    }
+                  });
+                  this.className = 'aes';
+              // Odd number of clicks
+            }else if (timeClicks % 2 !== 0) { 
+                  // sort descending: numerically
+                  rows.sort(function(a,b) { 
+                    if (+a.time < +b.time) { 
+                      return 1; 
+                    } else if (+a.time > +b.time) { 
+                      return -1; 
+                    } else {
+                      return 0;
+                    }
+                  });
+                  this.className = 'des';
+              }
+          }
+        })
     }
     render() {
-      return <svg ref={node => this.node = node}
+      return <svg className="svg-container" ref={node => this.node = node}
             id="table"
-              width={800} height={800}>
+              width={1800} height={3800}>
             </svg>
     }
 }
