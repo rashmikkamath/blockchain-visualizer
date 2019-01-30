@@ -77,6 +77,10 @@ class BlocksContainer extends React.Component {
             isLinkClicked: true,
             type: type,
           });
+          this.props.history.push({
+            pathname: '/details',
+            state: { details: result, type: type }
+          })
         },
         (error) => {
           this.setState({
@@ -87,24 +91,18 @@ class BlocksContainer extends React.Component {
       )
     
   }
-
   render() {
-    let content = <div>Loading...</div>  ;
+    let content = <p> Loading ...</p>;
     if (this.state.isLoaded && !this.state.isLinkClicked) {
       content = <div>
-                  Blocks Today
+                  <h2>Blocks Today</h2>
+                  <p> The table below shows all blocks and related data for today. Click the time header to sort data by time.</p>
+                  <p> Click on the hash ids to view block details.</p>  
                   <Table
                     tableData = {this.state.items}
                     linkClicked={this.handleLinkClick}
                   />
                 </div>
-    }
-    if (this.state.isLoaded && this.state.isLinkClicked) {
-      content = <DetailsContainer
-                  type={this.state.type}
-                  details={this.state.blockDetails}
-                  linkClicked={this.handleLinkClick}
-                />
     }
     return (
       <div className="main">

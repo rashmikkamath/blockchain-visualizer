@@ -53,7 +53,7 @@ class Table extends React.Component {
 		  .append('td')
 		    .html(function (d) {
 		    	if (d.column === 'hash') {
-		    		return "<a href="+ d.value +">" + d.value + "</a>"
+		    		return "<a href='/details'>" + d.value + "</a>"
 		    	}
 		    	return d.value;
 		    })
@@ -64,8 +64,6 @@ class Table extends React.Component {
 		    	}
 		    })
 
-		
-		
 		// Sort Functionality
 		headers
     	.on("click", (d) => {
@@ -104,7 +102,7 @@ class Table extends React.Component {
   	render() {
 	    return <svg ref={node => this.node = node}
 	    			id="table"
-      				width={1200} height={1200}>
+      				width={800} height={800}>
       			</svg>
   	}
 }
