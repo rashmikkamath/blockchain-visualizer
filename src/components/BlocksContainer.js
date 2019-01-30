@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from './Table';
+import apiService from '../utils/apiService';
 
 class BlocksContainer extends React.Component {
   constructor(props) {
@@ -23,28 +24,13 @@ class BlocksContainer extends React.Component {
     const apiUrl = 'https://blockchain.info/blocks/';
     let url = apiUrl + dateToday + '?format=json';
 
-    fetch(url, {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: false,
-          });
-        }
-      )
+    apiService(url)
+      .then(response => {
+        this.setState({
+          isLoaded: true,
+          items: response
+        });
+      });
   }
 
   handleLinkClick(hash, type) {
@@ -56,36 +42,20 @@ class BlocksContainer extends React.Component {
     }
     let url = apiUrl + hash;
 
-    fetch(url, {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            blockDetails: result,
-            isLinkClicked: true,
-            type: type,
-          });
-          this.props.history.push({
-            pathname: '/details',
-            state: { details: result, type: type }
-          })
-        },
-        (error) => {
-          this.setState({
-            isLoaded: false,
-            error
-          });
-        }
-      )
-    
+    apiService(url)
+      .then(response => {
+        this.setState({
+        isLoaded: true,
+        blockDetails: response,
+        isLinkClicked: true,
+        type: type,
+      });
+        this.props.history.push({
+          pathname: '/details',
+          state: { details: response , type: type }
+        })
+      });
+
   }
   render() {
     let content = <p> Loading ...</p>;
