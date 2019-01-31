@@ -1,6 +1,8 @@
 import React from 'react';
 import apiService from '../utils/apiService';
 import humanize from '../utils/utils';
+import {Button} from 'react-bootstrap';
+
 
 class DetailsContainer extends React.Component {
   constructor(props) {
@@ -92,7 +94,7 @@ class DetailsContainer extends React.Component {
     
     return (
       <div className="details">
-        <button onClick={this.goBack}>Go Back</button>
+        <Button className="back-btn" variant="outline-secondary" onClick={this.goBack}>Go Back</Button>
         {type === 'block' ? <p className="title"> Block: {links.hash}</p> : <p className="title"> Transaction: {links.hash}</p>}
         {listItems}
         {content}
