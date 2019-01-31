@@ -1,7 +1,7 @@
-body {
-	padding: 30px;
-}
 
+.nav-bar {
+	margin-bottom: 10px;
+}
 table {
 	background: #ffffff;
 	width: 100%; 
@@ -11,12 +11,15 @@ table {
     overflow: auto;
 }
 .main {
-	margin: auto;
-  	width: 100%;
+	margin-left: 20px;
+}
+.details {
+	margin-left: 20px;
 }
 tr:nth-of-type(odd) { 
 	background: #f0f8ff; 
 }
+tr:hover td { background-color: #edf8b1; }
 th { 
 	background: #333; 
 	color: white; 
@@ -40,7 +43,7 @@ th.aes:after {
 }
 
 .details li label {
-	width:100%;
+	width: 90%;
 }
 .details li label .label {
 	width:20%;
@@ -67,4 +70,7 @@ th.aes:after {
 }
 .title {
 	font-weight: bold;
+}
+.back-btn {
+	cursor: pointer;
 }

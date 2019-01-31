@@ -1,10 +1,9 @@
 import React from 'react';
-// Import routing components
 import { Router, Route } from 'react-router-dom';
 import BlocksContainer from './components/BlocksContainer';
 import DetailsContainer from './components/DetailsContainer';
+import NavigationBar from './components/NavigationBar';
 import createBrowserHistory from 'history/createBrowserHistory';
-import './App.css';
 const history = createBrowserHistory();
 
 class App extends React.Component {
@@ -13,6 +12,7 @@ class App extends React.Component {
       <div>
         <Router history={history}>
           <div>
+            <NavigationBar/>
             <Route path='/' exact component={BlocksContainer} />
             <Route path='/details' component={DetailsContainer} />
           </div>
