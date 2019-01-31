@@ -62,8 +62,8 @@ class BlocksContainer extends React.Component {
     if (this.state.isLoaded && !this.state.isLinkClicked) {
       content = <div>
                   <h2>Blocks Today</h2>
-                  <p> The table below shows all blocks and related data for today. Click the time header to sort data by time.</p>
-                  <p> Click on the hash ids to view block details.</p>  
+                  <p> The table below shows all blocks and related data for today. Click the time header to sort blocks by time.</p>
+                  <p> Click on the block hash id to view the particular block details.</p>  
                   <Table
                     tableData = {this.state.items}
                     linkClicked={this.handleLinkClick}
