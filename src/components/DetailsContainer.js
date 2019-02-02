@@ -30,7 +30,6 @@ class DetailsContainer extends React.Component {
           });
     }
   }
-
   //Go Back button functionality.
   goBack() {
     this.props.history.goBack();
@@ -38,70 +37,80 @@ class DetailsContainer extends React.Component {
   render() {
     const links = this.props.location.state.details;
     let type = this.props.location.state.type;
-    let txItems;
-  let content;
-  let listItems;
-
-    // Details Container will render differently depending on whether it is a block or transaction detail
-    if (type === 'block') {
-      // Create a label input combi for each key value pair in the per block data
-      listItems = Object.keys(links).map((key, index) => {
-        // If not of type transaction
-        if (key !== 'tx') {
-          let labelText = humanize(key);
-          return <li key={index}>
-                  <label>
-                  <div className="label">{labelText}</div> 
-                  <span>{links[key]}</span>
-                  </label>
-              </li>
-        } 
-        // If transactions list them out by hash.
-        else if(key === 'tx') {
-          txItems = links[key].map((tx, index) => {
-            let boundLinkClick = this.handleLinkClick.bind(this, tx.hash, 'tx');
-            return <div key={index}>
-                  <li key={index}>
-                  <a href="/details" onClick={boundLinkClick}>{tx.hash}</a>
-                    </li>
-                  </div>
-          });
-        }
-        return null;
-      })
-      if (txItems && txItems.length>0) {
-        content = <div className="transactions">
-              <p>Transactions ({txItems.length})</p>
-              <div className="items">{txItems}</div>
-            </div>
-      } else {
-        content = <span>Loading...</span>
-      }
-  } else if(type === 'tx') {
-    listItems = Object.keys(links).map((key, index) => {
-      let labelText = humanize(key);
-      if (key !== 'out' && key !== 'inputs') {
-        return <li key={index}>
-                  <label>
-                  <div className="label">{labelText}</div> 
-                  <span>{links[key]}</span>
-                  </label>
-              </li>
-      }
-      return null
-    })
-  }
-    
     return (
       <div className="details">
         <Button className="back-btn" variant="outline-secondary" onClick={this.goBack}>Go Back</Button>
-        {type === 'block' ? <p className="title"> Block: {links.hash}</p> : <p className="title"> Transaction: {links.hash}</p>}
-        {listItems}
-        {content}
+        {type === 'block' ? <BlockDetails 
+                              links ={links}
+                              handleLinkClick={this.handleLinkClick}
+                            /> :
+                            <TransactionDetails
+                              links ={links}
+                            />
+        }
         
       </div>
     );
   }
 }
 
+const BlockDetails = ({links, handleLinkClick}) => {
+  let txItems;
+  let listItems = Object.keys(links).map((key, index) => {
+    if (key !== 'tx') {
+      let labelText = humanize(key);
+      return <li key={index}>
+              <label>
+              <div className="label">{labelText}</div> 
+              <span>{links[key]}</span>
+              </label>
+          </li>
+    } 
+    // If transactions list them out by hash.
+    else if(key === 'tx') {
+      txItems = links[key].map((tx, index) => {
+        let boundLinkClick = handleLinkClick.bind(this, tx.hash, 'tx');
+        return <div key={index}>
+              <li key={index}>
+              <a href="/details" onClick={boundLinkClick}>{tx.hash}</a>
+                </li>
+              </div>
+      });
+    }
+    return null;
+  })
+  return (
+    <div>
+      <p className="title"> Block: {links.hash}</p>
+      {listItems}
+      <div className="transactions">
+        <p>Transactions ({txItems.length})</p>
+        <div className="items">{txItems}</div>
+      </div>
+    </div>
+  )
+}
+
+
+const TransactionDetails = ({ links }) => {
+  let listItems = Object.keys(links).map((key, index) => {
+    let labelText = humanize(key);
+    if (key !== 'out' && key !== 'inputs') {
+      return <li key={index}>
+                <label>
+                <div className="label">{labelText}</div> 
+                <span>{links[key]}</span>
+                </label>
+            </li>
+    }
+    return null
+  })
+  return (
+    <div>
+      <p className="title">Transactions: {links.hash}</p>
+      {listItems} 
+    </div>
+
+  )
+}
 export default DetailsContainer;
