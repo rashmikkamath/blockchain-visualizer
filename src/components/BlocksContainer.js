@@ -32,7 +32,7 @@ class BlocksContainer extends React.Component {
         });
       });
   }
-
+  // Handles clicked link event
   handleLinkClick(hash, type) {
     let apiUrl;
     if (type === 'block') {
